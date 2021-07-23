@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_application_5/src/screens/auth/auth_screen.dart';
 
 void main() {
