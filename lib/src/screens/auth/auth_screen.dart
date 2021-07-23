@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_application_5/app_colors.dart' as AppColors;
+import 'package:flutter_application_5/constants/app_colors.dart' as AppColors;
 
 class AuthScreen extends StatelessWidget {
   const AuthScreen({Key? key}) : super(key: key);
