@@ -7,7 +7,7 @@ class AuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-      backgroundColor: AppColors.backgroung,
+      backgroundColor: AppColors.background,
       navigationBar: CupertinoNavigationBar(
         backgroundColor: CupertinoColors.white,
         middle: Text('Авторизация'),
