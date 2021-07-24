@@ -9,7 +9,7 @@ class AuthScreen extends StatelessWidget {
     return CupertinoPageScaffold(
       backgroundColor: AppColors.background,
       navigationBar: CupertinoNavigationBar(
-        backgroundColor: CupertinoColors.white,
+        backgroundColor: AppColors.whiteBackground,
         middle: Text('Авторизация'),
       ),
       child: SafeArea(
@@ -18,48 +18,46 @@ class AuthScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
-              color: CupertinoColors.white,
+              color: AppColors.whiteBackground,
               child: Column(
                 children: [
                   CupertinoTextField(
-                    decoration: BoxDecoration(color: CupertinoColors.white),
                     placeholder: 'Логин или почта',
                     padding: const EdgeInsets.symmetric(
-                        vertical: 19, horizontal: 16),
+                        vertical: 19.0, horizontal: 16.0),
                   ),
                   Container(
                     height: 1,
                     color: AppColors.textFieldBackground,
-                    margin: const EdgeInsets.symmetric(horizontal: 16),
+                    margin: const EdgeInsets.symmetric(horizontal: 16.0),
                   ),
                   CupertinoTextField(
-                    decoration: BoxDecoration(color: CupertinoColors.white),
                     placeholder: 'Пароль',
                     padding: const EdgeInsets.symmetric(
-                        vertical: 19, horizontal: 16),
+                        vertical: 19.0, horizontal: 16.0),
                   ),
                 ],
               ),
             ),
             SizedBox(
-              height: 32,
+              height: 32.0,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
               child: CupertinoButton(
                 color: AppColors.authButtons,
-                padding: EdgeInsets.symmetric(vertical: 20),
+                padding: EdgeInsets.symmetric(vertical: 20.0),
                 child: Text('Войти',
                     style: TextStyle(fontWeight: FontWeight.bold)),
                 onPressed: () {},
               ),
             ),
-            SizedBox(height: 19),
+            SizedBox(height: 19.0),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
               child: CupertinoButton(
                 color: AppColors.authButtons,
-                padding: EdgeInsets.symmetric(vertical: 20),
+                padding: EdgeInsets.symmetric(vertical: 20.0),
                 child: Text(
                   'Зарегистрироваться',
                   style: TextStyle(fontWeight: FontWeight.bold),
