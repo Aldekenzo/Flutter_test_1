@@ -6,9 +6,20 @@ import 'package:flutter_application_5/src/common/widgets/text_field_divider.dart
 import 'package:flutter_application_5/src/router/routing_const.dart';
 import 'package:flutter_application_5/src/common/widgets/custom_text_field.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_application_5/src/screens/auth/log_in_bloc/log_in_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AuthScreen extends StatelessWidget {
+class AuthScreen extends StatefulWidget {
   const AuthScreen({Key? key}) : super(key: key);
+
+  @override
+  _AuthScreenState createState() => _AuthScreenState();
+}
+
+class _AuthScreenState extends State<AuthScreen> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  Dio dio = Dio();
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +42,12 @@ class AuthScreen extends StatelessWidget {
                 children: [
                   CustomTextField(
                     placeholder: 'Логин или почта',
+                    controller: emailController,
                   ),
                   CustomTextFieldDivider(),
                   CustomTextField(
                     placeholder: 'Пароль',
+                    controller: passwordController,
                   ),
                 ],
               ),
@@ -44,15 +57,42 @@ class AuthScreen extends StatelessWidget {
             ),
             Padding(
               padding: AppPaddings.horizontal,
-              child: CustomButton(
-                text: 'Войти',
-                onPressed: () async {
-                  Dio dio = Dio();
-                  Response response = await dio.get(
-                    'https://web.codeunion.kz/',
+              child: BlocConsumer<LogInBloc, LogInState>(
+                listener: (context, state) {
+                  if (state is LogInLoaded) {
+                    Navigator.pushReplacementNamed(context, MainRoute);
+                  } else if (state is LogInFailed) {
+                    showCupertinoModalPopup(
+                      context: context,
+                      builder: (context) {
+                        return CupertinoAlertDialog(
+                          title: Text('Ошибка'),
+                          content: Text(state.message ?? ''),
+                          actions: [
+                            CupertinoButton(
+                              child: Text('ОК'),
+                              onPressed: () => Navigator.pop(context),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
+                },
+                builder: (context, state) {
+                  return CustomButton(
+                    text: 'Войти',
+                    onPressed: state is LogInLoading
+                        ? null
+                        : () {
+                            context.read<LogInBloc>().add(
+                                  LogInPressed(
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                  ),
+                                );
+                          },
                   );
-
-                  print(response.data);
                 },
               ),
             ),
@@ -72,3 +112,46 @@ class AuthScreen extends StatelessWidget {
     );
   }
 }
+
+
+/**
+ * BlocListener<LogInBloc, LogInState>(
+                listener: (context, state) {
+                  if (state is LogInLoaded) {
+                    Navigator.pushReplacementNamed(context, MainRoute);
+                  } else if (state is LogInFailed) {
+                    showCupertinoModalPopup(
+                      context: context,
+                      builder: (context) {
+                        return CupertinoAlertDialog(
+                          title: Text('Ошибка'),
+                          content: Text(state.message ?? ''),
+                          actions: [
+                            CupertinoButton(
+                              child: Text('ОК'),
+                              onPressed: () => Navigator.pop(context),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
+                },
+                child: BlocBuilder<LogInBloc, LogInState>(
+                    builder: (context, state) {
+                  return CustomButton(
+                    text: 'Войти',
+                    onPressed: state is LogInLoading
+                        ? null
+                        : () {
+                            context.read<LogInBloc>().add(
+                                  LogInPressed(
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                  ),
+                                );
+                          },
+                  );
+                }),
+              ),
+ */

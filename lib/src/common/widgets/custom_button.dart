@@ -6,7 +6,7 @@ class CustomButton extends StatelessWidget {
   const CustomButton({
     Key? key,
     this.text,
-    this.onPressed()?,
+    this.onPressed,
   }) : super(key: key);
   final String? text;
   final Function? onPressed;
@@ -16,7 +16,8 @@ class CustomButton extends StatelessWidget {
     return CupertinoButton(
       color: AppColors.main,
       padding: AppPaddings.vertical,
-      child: Text(text!, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
+      child: Text(text!,
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0)),
       onPressed: () {
         onPressed!();
       },

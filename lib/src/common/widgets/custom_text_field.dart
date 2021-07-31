@@ -7,16 +7,21 @@ class CustomTextField extends StatelessWidget {
     Key? key,
     this.placeholder,
     this.suffix,
+    this.controller,
   }) : super(key: key);
 
   final String? placeholder;
   final Widget? suffix;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
     return CupertinoTextField(
       placeholder: placeholder,
-      placeholderStyle: TextStyle(color: AppColors.textFieldTextColor, fontSize: 16.0),
+      controller: controller,
+      style: TextStyle(color: AppColors.black),
+      placeholderStyle:
+          TextStyle(color: AppColors.textFieldTextColor, fontSize: 16.0),
       suffix: suffix,
       decoration: BoxDecoration(
           border: Border(

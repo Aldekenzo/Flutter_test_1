@@ -1,5 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_application_5/src/common/constants/color_constants.dart';
+import 'package:flutter_application_5/src/screens/auth/rest_bloc/rest_bloc.dart';
+import 'package:flutter_application_5/src/screens/detail_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
 
 class Lenta extends StatefulWidget {
   const Lenta({Key? key}) : super(key: key);
@@ -9,9 +13,6 @@ class Lenta extends StatefulWidget {
 }
 
 class _LentaState extends State<Lenta> {
-  @override
-  Color _iconColor = AppColors.black;
-
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
@@ -50,18 +51,34 @@ class _LentaState extends State<Lenta> {
             ),
             Expanded(
               child: ListView.separated(
-                  itemCount: 5,
+                  itemCount: 4,
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
                       height: 234.0,
                       child: Column(
                         children: [
-                          Container(
-                            height: 150,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(6.0),
-                                color: AppColors.main),
+                          CupertinoButton(
+                            padding: EdgeInsets.zero,
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                  builder: (context) {
+                                    return BlocProvider(
+                                      create: (context) => RestBloc(),
+                                      child: DetailPage(),
+                                    );
+                                  },
+                                ),
+                              );
+                            },
+                            child: Container(
+                              height: 150,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(6.0),
+                                  color: AppColors.main),
+                            ),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -73,7 +90,7 @@ class _LentaState extends State<Lenta> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Mega Center',
+                                      "Mega Center",
                                       style: TextStyle(
                                           color: AppColors.black,
                                           fontWeight: FontWeight.w700,
@@ -84,7 +101,7 @@ class _LentaState extends State<Lenta> {
                                       height: 1.0,
                                     ),
                                     Text(
-                                      'Один из крупнейших торговых центров в ...',
+                                      "Один из крупнейших торговых центров в ...",
                                       style: TextStyle(
                                           color: AppColors.textAndIconColor,
                                           fontWeight: FontWeight.w400,
@@ -108,14 +125,10 @@ class _LentaState extends State<Lenta> {
                               CupertinoButton(
                                 child: Icon(
                                   CupertinoIcons.heart,
-                                  color: _iconColor,
+                                  color: AppColors.black,
                                 ),
                                 padding: EdgeInsets.zero,
-                                onPressed: () {
-                                  setState(() {
-                                    _iconColor = AppColors.red;
-                                  });
-                                },
+                                onPressed: () async {},
                               )
                             ],
                           )

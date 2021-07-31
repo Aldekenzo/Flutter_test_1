@@ -32,11 +32,14 @@ class _RegScreenState extends State<RegScreen> {
             ),
           ),
         ),
-        middle: Text('Регистрация', style: TextStyle(fontSize: 15.0),),
+        middle: Text(
+          'Регистрация',
+          style: TextStyle(fontSize: 15.0),
+        ),
       ),
       child: SafeArea(
         child: Padding(
-          padding: AppPaddings.customforregpage,
+          padding: AppPaddings.customForRegPage,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
