@@ -1,5 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_application_5/constants/app_colors.dart' as AppColors;
+import 'package:flutter_application_5/src/common/constants/color_constants.dart';
+import 'package:flutter_application_5/src/common/constants/padding_constants.dart';
+import 'package:flutter_application_5/src/common/widgets/custom_button.dart';
+import 'package:flutter_application_5/src/common/widgets/custom_text_field.dart';
+import 'package:flutter_application_5/src/common/widgets/text_field_divider.dart';
 
 class RegScreen extends StatefulWidget {
   const RegScreen({Key? key}) : super(key: key);
@@ -12,99 +16,69 @@ class _RegScreenState extends State<RegScreen> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-      backgroundColor: AppColors.background,
       navigationBar: CupertinoNavigationBar(
-        backgroundColor: AppColors.whiteBackground,
+        backgroundColor: AppColors.white,
         leading: SizedBox(
           height: 16.0,
           width: 9.0,
           child: CupertinoButton(
-            padding: EdgeInsets.zero,
-            onPressed: () {},
+            padding: AppPaddings.zero,
+            onPressed: () {
+              Navigator.pop(context);
+            },
             child: Icon(
               CupertinoIcons.back,
               color: AppColors.iconColor,
             ),
           ),
         ),
-        middle: Text('Регистрация'),
+        middle: Text(
+          'Регистрация',
+          style: TextStyle(fontSize: 15.0),
+        ),
       ),
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(top: 32.0),
+          padding: AppPaddings.customForRegPage,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Container(
-                color: AppColors.whiteBackground,
+                color: AppColors.white,
                 child: Column(
                   children: [
-                    CupertinoTextField(
+                    CustomTextField(
                       placeholder: 'Логин',
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 19.0, horizontal: 16.0),
                     ),
-                    Container(
-                      height: 1.0,
-                      color: AppColors.textFieldBackground,
-                      margin: const EdgeInsets.symmetric(horizontal: 16.0),
-                    ),
-                    CupertinoTextField(
+                    CustomTextFieldDivider(),
+                    CustomTextField(
                       placeholder: 'Телефон',
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 19.0, horizontal: 16.0),
                     ),
-                    Container(
-                      height: 1.0,
-                      color: AppColors.textFieldBackground,
-                      margin: const EdgeInsets.symmetric(horizontal: 16.0),
-                    ),
-                    CupertinoTextField(
+                    CustomTextFieldDivider(),
+                    CustomTextField(
                       placeholder: 'Почта',
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 19.0, horizontal: 16.0),
                     ),
-                    Container(
-                      height: 1,
-                      color: AppColors.textFieldBackground,
-                      margin: const EdgeInsets.symmetric(horizontal: 16.0),
-                    ),
-                    CupertinoTextField(
+                    CustomTextFieldDivider(),
+                    CustomTextField(
                       placeholder: 'Пароль',
-                      suffix: Padding(
-                        padding: EdgeInsets.only(right: 16.0),
-                        child: SizedBox(
-                          height: 19.0,
-                          width: 24.0,
-                          child: CupertinoButton(
-                            padding: EdgeInsets.only(bottom: 22.0, right: 19.0),
-                            onPressed: () {},
-                            child: Icon(
-                              CupertinoIcons.eye_slash,
-                              color: AppColors.iconColor,
-                            ),
+                      suffix: Container(
+                        child: CupertinoButton(
+                          onPressed: () {},
+                          child: Icon(
+                            CupertinoIcons.eye_slash,
+                            color: AppColors.iconColor,
                           ),
                         ),
                       ),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 19.0, horizontal: 16.0),
                     ),
                   ],
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(
-                    left: 16.0, right: 16.0, bottom: 56.0),
-                child: CupertinoButton(
-                  color: AppColors.authButtons,
-                  padding:
-                      EdgeInsets.symmetric(vertical: 19.0, horizontal: 16.0),
-                  child: Text(
-                    'Создать Аккаунт',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  onPressed: () {},
+                padding: AppPaddings.horizontal,
+                child: CustomButton(
+                  text: 'Создать Аккаунт',
                 ),
               ),
             ],
