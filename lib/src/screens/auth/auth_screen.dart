@@ -1,16 +1,35 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_application_5/constants/app_colors.dart' as AppColors;
+import 'package:flutter_application_5/src/common/constants/color_constants.dart';
+import 'package:flutter_application_5/src/common/constants/padding_constants.dart';
+import 'package:flutter_application_5/src/common/widgets/custom_button.dart';
+import 'package:flutter_application_5/src/common/widgets/text_field_divider.dart';
+import 'package:flutter_application_5/src/router/routing_const.dart';
+import 'package:flutter_application_5/src/common/widgets/custom_text_field.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter_application_5/src/screens/auth/log_in_bloc/log_in_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AuthScreen extends StatelessWidget {
+class AuthScreen extends StatefulWidget {
   const AuthScreen({Key? key}) : super(key: key);
+
+  @override
+  _AuthScreenState createState() => _AuthScreenState();
+}
+
+class _AuthScreenState extends State<AuthScreen> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  Dio dio = Dio();
 
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-      backgroundColor: AppColors.background,
       navigationBar: CupertinoNavigationBar(
-        backgroundColor: CupertinoColors.white,
-        middle: Text('Авторизация'),
+        backgroundColor: AppColors.white,
+        middle: Text(
+          'Авторизация',
+          style: TextStyle(fontSize: 15.0),
+        ),
       ),
       child: SafeArea(
         child: Column(
@@ -18,53 +37,73 @@ class AuthScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
-              color: CupertinoColors.white,
+              color: AppColors.white,
               child: Column(
                 children: [
-                  CupertinoTextField(
-                    decoration: BoxDecoration(color: CupertinoColors.white),
+                  CustomTextField(
                     placeholder: 'Логин или почта',
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 19, horizontal: 16),
+                    controller: emailController,
                   ),
-                  Container(
-                    height: 1,
-                    color: AppColors.textFieldBackground,
-                    margin: const EdgeInsets.symmetric(horizontal: 16),
-                  ),
-                  CupertinoTextField(
-                    decoration: BoxDecoration(color: CupertinoColors.white),
+                  CustomTextFieldDivider(),
+                  CustomTextField(
                     placeholder: 'Пароль',
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 19, horizontal: 16),
+                    controller: passwordController,
                   ),
                 ],
               ),
             ),
             SizedBox(
-              height: 32,
+              height: 32.0,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: CupertinoButton(
-                color: AppColors.authButtons,
-                padding: EdgeInsets.symmetric(vertical: 20),
-                child: Text('Войти',
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-                onPressed: () {},
+              padding: AppPaddings.horizontal,
+              child: BlocConsumer<LogInBloc, LogInState>(
+                listener: (context, state) {
+                  if (state is LogInLoaded) {
+                    Navigator.pushReplacementNamed(context, MainRoute);
+                  } else if (state is LogInFailed) {
+                    showCupertinoModalPopup(
+                      context: context,
+                      builder: (context) {
+                        return CupertinoAlertDialog(
+                          title: Text('Ошибка'),
+                          content: Text(state.message ?? ''),
+                          actions: [
+                            CupertinoButton(
+                              child: Text('ОК'),
+                              onPressed: () => Navigator.pop(context),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
+                },
+                builder: (context, state) {
+                  return CustomButton(
+                    text: 'Войти',
+                    onPressed: state is LogInLoading
+                        ? null
+                        : () {
+                            context.read<LogInBloc>().add(
+                                  LogInPressed(
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                  ),
+                                );
+                          },
+                  );
+                },
               ),
             ),
-            SizedBox(height: 19),
+            SizedBox(height: 19.0),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: CupertinoButton(
-                color: AppColors.authButtons,
-                padding: EdgeInsets.symmetric(vertical: 20),
-                child: Text(
-                  'Зарегистрироваться',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                onPressed: () {},
+              padding: AppPaddings.horizontal,
+              child: CustomButton(
+                text: 'Зарегистрироваться',
+                onPressed: () {
+                  Navigator.pushNamed(context, RegisterRoute);
+                },
               ),
             ),
           ],
